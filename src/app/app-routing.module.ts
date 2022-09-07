@@ -1,32 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+// Modules con las rutas hijas
+import { PagesRoutingModule } from './pages/pages.routing';
+import { AuthRoutingModule } from './auth/auth.routing';
+
 // Components
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { ProgressComponent } from './pages/progress/progress.component';
-import { Grafica1Component } from './pages/grafica1/grafica1.component';
-import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
-import { PagesComponent } from './pages/pages.component';
+import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 
 // Routes
 const routes: Routes = [
-  {
-    path: '',
-    component: PagesComponent,
-    // Ponemos las rutas hijas en este mismo archivo
-    children: [
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'progress', component: ProgressComponent },
-      { path: 'grafica1', component: Grafica1Component },
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-    ]
-  },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  /* 
+    La ruta vacia es '/dashboard' por que queremos concatenar las rutas
+        http://localhost:4200/dashboard/
+        http://localhost:4200/dashboard/grafica1
+        http://localhost:4200/dashboard/progress
+  */
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   { path: '**', component: NopagefoundComponent },
-
 ];
 
 
@@ -34,7 +25,11 @@ const routes: Routes = [
   declarations: [],
   imports: [
     // Importamos las rutas principales
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    // Importamos el modulo con las rutas hijas de pages
+    PagesRoutingModule,
+    // Importamos el modulo con las rutas hijas de auth
+    AuthRoutingModule
   ],
   exports: [RouterModule]
 })
